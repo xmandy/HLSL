@@ -79,7 +79,7 @@
         <focallength>6.508698</focallength>
         <fov>40</fov>
         <zoomrect>0 0 1 1</zoomrect>
-        <viewtransform>-0.9938169 3.110229E-06 0.111031 0 0.06816877 0.7893529 0.6101432 0 -0.08764075 0.6139396 -0.7844726 0 -0.3944522 4.019518 -5.288396 1 </viewtransform>
+        <viewtransform>-0.9938169 3.114343E-06 0.111031 0 0.06816877 0.7893529 0.6101432 0 -0.08764077 0.6139397 -0.7844727 0 -0.3944522 4.019518 -5.288396 1 </viewtransform>
       </camera>
       <renderPort name="Render" />
     </FXComposer.Scene.Services.FXRenderPortService>

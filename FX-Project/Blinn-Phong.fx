@@ -93,12 +93,13 @@ float4 MyPixelShader(VS_OUTPUT IN): SV_Target
 	float3 Normal = normalize(IN.Normal);
 	float3 LightDirection = normalize(IN.LightDirection);
 	float3 ViewDirection = normalize(IN.ViewDirection);
-
-    float4 color = ColorTexture.Sample(ColorSampler, IN.TextureCoordinate);
+    
+	float4 color = ColorTexture.Sample(ColorSampler, IN.TextureCoordinate);
     float n_dot_l = dot(LightDirection, Normal);
 
     // ambient
-    float3 ambient = AmbientColor.rgb * AmbientColor.a * color.rgb;
+    //float3 ambient = AmbientColor.rgb * AmbientColor.a * color.rgb;
+    float3 ambient = GetVectorColorContribution(AmbientColor, color.rgb);
 
     // diffuse
     float3 diffuse = (float3)0;
@@ -106,13 +107,19 @@ float4 MyPixelShader(VS_OUTPUT IN): SV_Target
 
     if (n_dot_l > 0)
     {
-        diffuse = LightColor.rgb * LightColor.a * n_dot_l * color.rgb;
-		//diffuse = float3(1.0, 0, 0);
+        float3 HalfVector = normalize(LightDirection + ViewDirection);
+        float n_dot_h = dot(Normal, HalfVector);
 
-        // R = 2 * (N*L) * N - L
-        float3 ReflectionVector = normalize(2 * n_dot_l * Normal - LightDirection);
-        // R.V ^ Power with gloss map in color texture's alpha channel
-        specular = SpecularColor.rgb * SpecularColor.a * min(pow(saturate(dot(ReflectionVector, ViewDirection)), SpecularPower), color.w);
+        float4 LightCofficients = lit(n_dot_l, n_dot_h, SpecularPower);
+		
+        //diffuse = LightColor.rgb * LightColor.a * n_dot_l * color.rgb;
+        diffuse = GetVectorColorContribution(LightColor, LightCofficients.y * color.rgb);
+
+		float3 ReflectionVector = normalize(2 * n_dot_l * Normal - LightDirection);
+		//specular = SpecularColor.rgb * SpecularColor.a * min(pow(saturate(dot(ReflectionVector, IN.ViewDirection)), SpecularPower), color.w);
+        
+		//specular = SpecularColor.rgb * SpecularColor.a * min(pow(saturate(dot(IN.Normal, HalfVector)), SpecularPower), color.w);
+        specular = GetScalrColorContribution(SpecularColor, min(LightCofficients.z, color.w));
     }
 
 
@@ -120,6 +127,7 @@ float4 MyPixelShader(VS_OUTPUT IN): SV_Target
     OUT.rgb = ambient + diffuse + specular;
     OUT.a = color.a;
     return OUT;
+	
 }
 
 technique10 main10
