@@ -4,20 +4,36 @@ cbuffer CBufferPerFrame
 {
     float4 AmbientColor: AMBIENT <
     string UIName = "Ambient Light";
-    string UIWidget= "Color";
+    string UIWidget = "Color";
     > = {1.0f, 1.0f, 1.0f, 1.0f};
-
+	
     float4 LightColor: COLOR <
-    string Object = "LightColor0";
-    string UIName = "Light Color";
+    string Object = "PointLightColor0";
+    string UIName = "PointLight Color";
     string UIWidget = "Color";
     > = {1.0f, 1.0f, 1.0f, 1.0f};
 
+/*
     float3 LightDirection: DIRECTION <
     string Object = "DirectionLight0";
     string UIName = "Light Direction";
     string Space = "World";
     > = {0.0f, 0.0f , -1.0f};
+    */
+
+    float3 LightPosition: POSITION <
+    string Object = "PointLightPosition0";
+    string UIName = "PointLight Position";
+    string Space = "World";
+    > = {0.0f, 0.0f, 0.0f};
+
+    float LightRadius <
+    string UIName = "Light Radius";
+    string UIWidget = "slider";
+    float UIMin = 0.0;
+    float UIMax = 100.0;
+    float UIStep = 1.0;
+    > = {10.0f};
 
     float3 CameraPosition: CAMERAPOSITION < string UIWidget="None"; >;
 };
@@ -72,7 +88,7 @@ struct VS_OUTPUT
     float4 Position: SV_Position;
     float2 TextureCoordinate: TEXCOORD;
     float3 Normal: NORMAL;
-    float3 LightDirection: DIRECTION;
+    float4 LightDirection: DIRECTION;
     float3 ViewDirection: VIEWDIRECTION;
 };
 
@@ -83,7 +99,11 @@ VS_OUTPUT MyVertexShader(VS_INPUT IN)
     OUT.Position = mul(IN.ObjectPosition, WorldViewProjection);
     OUT.TextureCoordinate = GetCorrectedTextureCoordinate(IN.TextureCoordinate);
     OUT.Normal = normalize(mul(float4(IN.Normal, 0), World).xyz);
-    OUT.LightDirection = normalize(-LightDirection);
+	
+	float3 WorldPosition = mul(IN.ObjectPosition, World).xyz;
+    float3 LightDirection = LightPosition - WorldPosition;
+    OUT.LightDirection.xyz = normalize(LightDirection);
+    OUT.LightDirection.w = saturate(1.0f - length(LightDirection)/LightRadius); // Attenuation
     OUT.ViewDirection = normalize(CameraPosition - mul(IN.ObjectPosition, World).xyz);
     return OUT;
 }
@@ -91,7 +111,7 @@ VS_OUTPUT MyVertexShader(VS_INPUT IN)
 float4 MyPixelShader(VS_OUTPUT IN): SV_Target
 {
 	float3 Normal = normalize(IN.Normal);
-	float3 LightDirection = normalize(IN.LightDirection);
+	float3 LightDirection = normalize(IN.LightDirection.xyz);
 	float3 ViewDirection = normalize(IN.ViewDirection);
     
 	float4 color = ColorTexture.Sample(ColorSampler, IN.TextureCoordinate);
@@ -105,22 +125,20 @@ float4 MyPixelShader(VS_OUTPUT IN): SV_Target
     float3 diffuse = (float3)0;
 	float3 specular = (float3)0;
 
-    if (n_dot_l > 0)
-    {
+
         float3 HalfVector = normalize(LightDirection + ViewDirection);
         float n_dot_h = dot(Normal, HalfVector);
 
         float4 LightCofficients = lit(n_dot_l, n_dot_h, SpecularPower);
 		
         //diffuse = LightColor.rgb * LightColor.a * n_dot_l * color.rgb;
-        diffuse = GetVectorColorContribution(LightColor, LightCofficients.y * color.rgb);
+        diffuse = GetVectorColorContribution(LightColor, LightCofficients.y * color.rgb) * IN.LightDirection.w;
 
-		float3 ReflectionVector = normalize(2 * n_dot_l * Normal - LightDirection);
+		//float3 ReflectionVector = normalize(2 * n_dot_l * Normal - LightDirection);
 		//specular = SpecularColor.rgb * SpecularColor.a * min(pow(saturate(dot(ReflectionVector, IN.ViewDirection)), SpecularPower), color.w);
         
 		//specular = SpecularColor.rgb * SpecularColor.a * min(pow(saturate(dot(IN.Normal, HalfVector)), SpecularPower), color.w);
-        specular = GetScalarColorContribution(SpecularColor, min(LightCofficients.z, color.w));
-    }
+        specular = GetScalarColorContribution(SpecularColor, min(LightCofficients.z, color.w)) * IN.LightDirection.w;
 
 
     float4 OUT = (float4)0;

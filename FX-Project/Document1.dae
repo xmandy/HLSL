@@ -9,7 +9,7 @@
 		</contributor>
 		<created>2019-08-06T07:46:46Z</created>
 		<keywords>FXComposer, NVIDIA</keywords>
-		<modified>2019-08-30T11:43:39Z</modified>
+		<modified>2019-09-10T13:21:40Z</modified>
 		<subject/>
 		<title/>
 		<unit/>
@@ -19,22 +19,10 @@
 		<visual_scene id="DefaultScene" name="DefaultScene">
 			<node id="Node1" name="Node1" layer="">
 				<matrix sid="">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
-				<matrix sid="FXComposer2DiffMatrix">1 0 0 1.96546 0 1 0 0.489383 0 0 1 0 0 0 0 1</matrix>
 				<instance_geometry url="#Sphere" sid="GeometryInstance1" name="Sphere">
 					<bind_material>
 						<technique_common>
-							<instance_material symbol="SphereMaterial" target="#Material2">
-								<extra type="bind_object">
-									<technique profile="NVIDIA_FXCOMPOSER">
-										<bind_object object="lightcolor0" target="#Node" sid="Light"/>
-									</technique>
-								</extra>
-								<extra type="bind_object">
-									<technique profile="NVIDIA_FXCOMPOSER">
-										<bind_object object="directionlight0" target="#Node" sid="Light"/>
-									</technique>
-								</extra>
-							</instance_material>
+							<instance_material symbol="SphereMaterial" target="#Material4"/>
 						</technique_common>
 					</bind_material>
 				</instance_geometry>
@@ -171,6 +159,30 @@
 				</technique>
 			</extra>
 		</effect>
+		<effect id="Effect4" name="Blinn-Phong">
+			<profile_COMMON>
+				<technique sid="__fxc_remove_profile_COMMON">
+					<constant/>
+				</technique>
+			</profile_COMMON>
+			<extra type="import">
+				<technique profile="NVIDIA_FXCOMPOSER">
+					<import url="Blinn-Phong.fx" compiler_options="" profile="fx"/>
+				</technique>
+			</extra>
+		</effect>
+		<effect id="Effect5" name="PointLight">
+			<profile_COMMON>
+				<technique sid="__fxc_remove_profile_COMMON">
+					<constant/>
+				</technique>
+			</profile_COMMON>
+			<extra type="import">
+				<technique profile="NVIDIA_FXCOMPOSER">
+					<import url="PointLight.fx" compiler_options="" profile="fx"/>
+				</technique>
+			</extra>
+		</effect>
 	</library_effects>
 	<library_materials>
 		<material id="Material" name="AmbientLighting_Material">
@@ -181,13 +193,13 @@
 					<float4>1 0 0 1</float4>
 				</setparam>
 				<setparam ref="WorldViewProjection">
-					<float4x4>0.129928 0.158587 0.880703 0.18803 -1.7648 0.446325 0.179987 0.232546 0.146739 0.635059 -0.136002 6.65442 0.14673 0.635021 -0.135994 6.65591</float4x4>
+					<float4x4>2.74748 0 0 0 0 2.74748 0 0 0 0 -1.00006 4.7446 0 0 -1 4.74525</float4x4>
 				</setparam>
 				<setparam ref="ColorTexture">
 					<surface type="2D">
 						<init_from>EarthComposite</init_from>
 						<format>R8G8B8A8</format>
-						<size>2048 1024 1</size>
+						<size>1024 512 1</size>
 					</surface>
 				</setparam>
 			</instance_effect>
@@ -241,16 +253,16 @@
 					<float3>-0 -0 -1</float3>
 				</setparam>
 				<setparam ref="WorldViewProjection">
-					<float4x4>0.129928 0.158587 0.880703 0.18803 -1.7648 0.446325 0.179987 0.232546 0.146739 0.635059 -0.136002 6.65442 0.14673 0.635021 -0.135994 6.65591</float4x4>
+					<float4x4>2.74748 0 0 0 0 2.74748 0 0 0 0 -1.00006 4.7446 0 0 -1 4.74525</float4x4>
 				</setparam>
 				<setparam ref="World">
-					<float4x4>-0.126001 -0.0493161 -0.651895 0.0570583 -0.597112 -0.261634 0.135205 2.40839e-009 -0.266189 0.610238 0.00528498 1.64324e-009 0 0 0 1</float4x4>
+					<float4x4>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</float4x4>
 				</setparam>
 				<setparam ref="ColorTexture">
 					<surface type="2D">
 						<init_from>EarthComposite</init_from>
 						<format>R8G8B8A8</format>
-						<size>2048 1024 1</size>
+						<size>1024 512 1</size>
 					</surface>
 				</setparam>
 			</instance_effect>
@@ -262,19 +274,94 @@
 					<float4>1 1 1 0</float4>
 				</setparam>
 				<setparam ref="LightColor">
-					<float4>1 1 1 0</float4>
+					<float4>1 1 1 1</float4>
 				</setparam>
 				<setparam ref="LightDirection">
-					<float3>0.979131 -0.203074 -0.00793791</float3>
+					<float3>0 0 -1</float3>
 				</setparam>
 				<setparam ref="CameraPosition">
-					<float3>-0.394452 4.01952 -5.2884</float3>
+					<float3>0 0 4.74525</float3>
 				</setparam>
 				<setparam ref="WorldViewProjection">
-					<float4x4>0.129928 0.158587 0.880703 0.18803 -1.7648 0.446325 0.179987 0.232546 0.146739 0.635059 -0.136002 6.65442 0.14673 0.635021 -0.135994 6.65591</float4x4>
+					<float4x4>2.74748 0 0 0 0 2.74748 0 0 0 0 -1.00006 4.7446 0 0 -1 4.74525</float4x4>
 				</setparam>
 				<setparam ref="World">
-					<float4x4>-0.126001 -0.0493161 -0.651895 0.0570583 -0.597112 -0.261634 0.135205 2.40839e-009 -0.266189 0.610238 0.00528498 1.64324e-009 0 0 0 1</float4x4>
+					<float4x4>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</float4x4>
+				</setparam>
+				<setparam ref="SpecularColor">
+					<float4>1 1 1 1</float4>
+				</setparam>
+				<setparam ref="SpecularPower">
+					<float>25</float>
+				</setparam>
+				<setparam ref="ColorTexture">
+					<surface type="2D">
+						<init_from>Earthatday</init_from>
+						<format>R8G8B8A8</format>
+						<size>1024 512 1</size>
+					</surface>
+				</setparam>
+			</instance_effect>
+		</material>
+		<material id="Material3" name="Blinn-Phong_Material">
+			<instance_effect url="#Effect4">
+				<technique_hint platform="PC-D3D10" ref="main10"/>
+				<setparam ref="AmbientColor">
+					<float4>1 1 1 1</float4>
+				</setparam>
+				<setparam ref="LightColor">
+					<float4>1 1 1 1</float4>
+				</setparam>
+				<setparam ref="LightDirection">
+					<float3>0 0 -1</float3>
+				</setparam>
+				<setparam ref="CameraPosition">
+					<float3>0 0 4.74525</float3>
+				</setparam>
+				<setparam ref="WorldViewProjection">
+					<float4x4>2.74748 0 0 0 0 2.74748 0 0 0 0 -1.00006 4.7446 0 0 -1 4.74525</float4x4>
+				</setparam>
+				<setparam ref="World">
+					<float4x4>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</float4x4>
+				</setparam>
+				<setparam ref="SpecularColor">
+					<float4>1 1 1 1</float4>
+				</setparam>
+				<setparam ref="SpecularPower">
+					<float>25</float>
+				</setparam>
+				<setparam ref="ColorTexture">
+					<surface type="2D">
+						<init_from>Earthatday</init_from>
+						<format>R8G8B8A8</format>
+						<size>1024 512 1</size>
+					</surface>
+				</setparam>
+			</instance_effect>
+		</material>
+		<material id="Material4" name="PointLight_Material">
+			<instance_effect url="#Effect5">
+				<technique_hint platform="PC-D3D10" ref="main10"/>
+				<setparam ref="AmbientColor">
+					<float4>1 1 1 1</float4>
+				</setparam>
+				<setparam ref="LightColor">
+					<float4>1 1 1 1</float4>
+				</setparam>
+				<setparam ref="LightPosition">
+					<float3>2 2 2</float3>
+				</setparam>
+				<setparam ref="LightRadius">
+					<float>28</float>
+				</setparam>
+				<setparam ref="CameraPosition">
+					<float3>0 0 4.74525</float3>
+				</setparam>
+				<setparam ref="WorldViewProjection">
+					<float4x4>2.74748 0 0 0 0 2.74748 0 0 0 0 -1.00006 4.7446 0 0 -1 4.74525</float4x4>
+				</setparam>
+				<setparam ref="World">
+					<float4x4>1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</float4x4>
 				</setparam>
 				<setparam ref="SpecularColor">
 					<float4>1 1 1 1</float4>

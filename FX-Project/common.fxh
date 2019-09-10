@@ -17,7 +17,7 @@ float3 GetVectorColorContribution(float4 Light, float3 Color)
     return Light.rgb * Light.a * Color;
 }
 
-float3 GetScalrColorContribution(float4 Light, float Scalar)
+float3 GetScalarColorContribution(float4 Light, float Scalar)
 {
     return Light.rgb * Light.a * Scalar;
 }
