@@ -1,12 +1,14 @@
 cbuffer CBufferPerObject
 {
-   float4x4 WorldViewProjection: WORLDVIEWPROJECTION <string
-   UIWidget="None"; >;
-}
+    float4x4 WorldViewProjection: WORLDVIEWPROJECTION <string
+    UIWidget="None"; >;
+	float4x4 ViewProjection: VIEWPROJECTION<string
+	UIWidget="None"; >;
+};
 
 TextureCube SkyboxTexture <
     string UIName = "Skybox Texture";
-    string ResourceType="3D";
+    string ResourceType = "3D";
     >;
 
 SamplerState TrilinearSampler
@@ -16,7 +18,7 @@ SamplerState TrilinearSampler
 
 RasterizerState DisableCulling
 {
-    CullMode = None;
+    CullMode=None;
 };
 
 struct VS_INPUT
@@ -26,33 +28,32 @@ struct VS_INPUT
 
 struct VS_OUTPUT
 {
-    float4 Position: SV_POSITION;
-    float3 TextureCoordinate: TEXCOORD;
+    float4 Position: SV_Position;
+    float3 TexCoordinate: TEXCOORD;
 };
 
-/** vertex shader **/
-
-VS_OUTPUT vertext_shader(VS_INPUT IN)
+VS_OUTPUT MyVertexShader(VS_INPUT IN)
 {
     VS_OUTPUT OUT = (VS_OUTPUT)0;
+    //OUT.Position = mul(IN.ObjectPosition, WorldViewProjection);
+	OUT.Position = mul(IN.ObjectPosition, ViewProjection);
 
-    OUT.Position = mul(IN.ObjectPosition, WorldViewProjection);
-    OUT.TextureCoordinate = IN.ObjectPosition;
+    OUT.TexCoordinate = IN.ObjectPosition;
     return OUT;
 }
 
-/** pix shader **/
-float4 pixel_shader(VS_OUTPUT IN): SV_TARGET
+float4 MyPixelShader(VS_OUTPUT IN): SV_Target
 {
-    return SkyboxTexture.Sample(TrilinearSampler, IN.TextureCoordinate);
+    return SkyboxTexture.Sample(TrilinearSampler, IN.TexCoordinate);
 }
 
 technique10 main10
 {
     pass p0
     {
-        SetVertexShader(CompileShader(vs_4_0, vertext_shader()));
+        SetVertexShader(CompileShader(vs_4_0, MyVertexShader()));
         SetGeometryShader(NULL);
-        SetPixelShader(CompileShader(ps_4_0, pixel_shader()));
+        SetPixelShader(CompileShader(ps_4_0, MyPixelShader()));
+        SetRasterizerState(DisableCulling);
     }
 }
