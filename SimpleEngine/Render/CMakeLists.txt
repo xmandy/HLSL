@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 
 project(Render)
+set(TARGET_NAME ${PROJECT_NAME})
+add_library(${TARGET_NAME})
 
 # begin use cmake 3.0 feature
 # set path
@@ -28,7 +30,6 @@ target_sources(${TARGET_NAME}
     ${INCLUDE_FILES}
     )
 
-set(TARGET_NAME ${PROJECT_NAME})
 
 
 

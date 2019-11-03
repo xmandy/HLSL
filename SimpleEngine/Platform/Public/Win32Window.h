@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Platform/Public/Headers.h"
+#include "Common/Public/Headers.h"
 
 namespace Platform
 {

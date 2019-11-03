@@ -12,10 +12,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Libs)
 
 message(STATUS "11" ${CMAKE_BUILD_TYPE})
 
+add_subdirectory(Common)
+
+add_subdirectory(Platform)
 
 add_subdirectory(Render)
 
-add_subdirectory(Platform)
+add_subdirectory(Game)
 
 # the application project always in the end
 add_subdirectory(Startup)
