@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(Render)
+project(Game)
 
 # begin use cmake 3.0 feature
 # set path
@@ -29,7 +29,4 @@ target_sources(${TARGET_NAME}
     )
 
 set(TARGET_NAME ${PROJECT_NAME})
-
-
-
 
