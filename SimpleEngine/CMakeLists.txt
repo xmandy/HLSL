@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.6)
 
 # solution
 project(Engine)
+add_definitions(-DUNICODE -D_UNICODE)
 
 set(CMAKE_BUILD_TYPE Release CACHE STRING "aaa" FORCE)
 

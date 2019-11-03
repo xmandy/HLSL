@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.6)
 project(Platform)
 
 set(TARGET_NAME ${PROJECT_NAME})
-add_library(${TARGET_NAME} SHARED)
+add_library(${TARGET_NAME})
 
 # begin use cmake 3.0 feature
 # set path
@@ -20,7 +20,8 @@ file(GLOB_RECURSE SRC_FILES ${SOURCE_DIR}/*.cpp)
 
 target_include_directories(${TARGET_NAME} 
     PUBLIC
-        ${INCLUDE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+		${CMAKE_CURRENT_SOURCE_DIR}/../
         )
 
 target_sources(${TARGET_NAME} 

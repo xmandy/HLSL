@@ -13,9 +13,10 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Private)
 LIST(APPEND INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
 include_directories(${INCLUDE_DIR})
-add_executable(${PROJECT_NAME} ${SOURCE_DIR}/win_main.cpp ${PLATFORM_HEADERS})
+add_executable(${PROJECT_NAME} WIN32 ${SOURCE_DIR}/win_main.cpp ${PLATFORM_HEADERS})
 
 add_dependencies(${PROJECT_NAME} Platform)
+target_link_libraries(${PROJECT_NAME} Platform)
 
 
 
