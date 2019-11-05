@@ -1,4 +1,4 @@
-#include "Public/Win32Window.h"
+#include "Public/SWin32Window.h"
 
 namespace Platform
 {

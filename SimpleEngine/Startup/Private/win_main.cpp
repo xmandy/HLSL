@@ -1,5 +1,6 @@
-#include "Common/Public/Headers.h"
-#include "Platform/Public/Win32Window.h"
+#include "Common/Public/SHeaders.h"
+#include "Platform/Public/SWin32Window.h"
+#include "Game/Public/SGame.h"
 
 
 int WINAPI WinMain(HINSTANCE Instance, HINSTANCE, LPSTR, int ShowCommand)
