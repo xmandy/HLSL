@@ -1,6 +1,12 @@
 #include "Public/SGame.h"
 
-namespace Game
+namespace SGame
 {
+
+	void	 SGame::Initialize()
+	{
+
+	}
+		
 
 }

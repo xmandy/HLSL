@@ -8,6 +8,9 @@ namespace SGame
 	{
 		SRTTI_DECLARATIONS(SGame, Common::SRTTI)
 
+	public:
+		virtual void Initialize();
+
 
 
 	};

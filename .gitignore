@@ -1,2 +1,5 @@
 BuildEngine
 RenderDemo
+.idea
+log.txt
+*.pyc
