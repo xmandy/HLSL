@@ -1,4 +1,5 @@
 #include "Public/SGame.h"
+#include "Public/SGameTime.h"
 
 namespace SGame
 {
@@ -9,4 +10,25 @@ namespace SGame
 	}
 		
 
+	void SGame::Run()
+	{
+
+	}
+
+	void SGame::ShutDown()
+	{
+
+
+	}
+
+
+	void SGame::Update()
+	{
+
+	}
+
+	void SGame::Draw()
+	{
+
+	}
 }
