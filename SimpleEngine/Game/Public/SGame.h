@@ -2,6 +2,8 @@
 #include "Common/Public/SHeaders.h"
 #include "Common/Public/SRHHI.h"
 
+#include <functional>
+
 namespace SGame
 {
 	class SGameTime;
@@ -21,6 +23,10 @@ namespace SGame
 	private:
 
 		SGameTime* GameTime;
+
+		std::function<void*()> GetWindowHandle;
+		std::function<void(SIZE&) GetRenderTargetSize;
+
 
 
 
