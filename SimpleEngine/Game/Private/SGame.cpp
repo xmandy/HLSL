@@ -40,6 +40,13 @@ namespace SGame
 		D3DDevice = std::make_unique<ID3D11Device>(D3DDevicePtr);
 
 		// check multi sample quality levels
+		Common::ThrowIfFailed(D3DDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM,
+			MultiSamplingCount, &MultiSamplingQualityLevel), "CheckMultisampleQualityLevels Failed!");
+		if (MultiSamplingQualityLevel == 0)
+		{
+			throw Common::SException("Unsupported multi-sampling quality");
+		}
+
 
 
 
