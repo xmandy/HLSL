@@ -13,6 +13,9 @@ namespace SGame
 		SRTTI_DECLARATIONS(SGame, Common::SRTTI)
 
 	public:
+
+		SGame(std::function<void*()> GetWindowHandleFunc,
+			std::function<void(SIZE&)> GetRenderTargetSizeFunc);
 		virtual void Initialize();
 		virtual void Run();
 		virtual void ShutDown();
@@ -25,7 +28,7 @@ namespace SGame
 		SGameTime* GameTime;
 
 		std::function<void*()> GetWindowHandle;
-		std::function<void(SIZE&) GetRenderTargetSize;
+		std::function<void(SIZE&)> GetRenderTargetSize;
 
 
 
