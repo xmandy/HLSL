@@ -19,9 +19,9 @@ namespace SGame
 		return mTotalGameTime;
 	}
 
-	void SGameTime::SetTotalGameTime(const milliseconds& totalSGameTime)
+	void SGameTime::SetTotalGameTime(const milliseconds& totalGameTime)
 	{
-		mTotalGameTime = totalSGameTime;
+		mTotalGameTime = totalGameTime;
 	}
 
 	const milliseconds& SGameTime::ElapsedGameTime() const
@@ -29,9 +29,9 @@ namespace SGame
 		return mElapsedGameTime;
 	}
 
-	void SGameTime::SetElapsedGameTime(const milliseconds& elapsedSGameTime)
+	void SGameTime::SetElapsedGameTime(const milliseconds& elapseGameTime)
 	{
-		mElapsedGameTime = elapsedSGameTime;
+		mElapsedGameTime = elapseGameTime;
 	}
 
 	duration<float> SGameTime::TotalGameTimeSeconds() const
