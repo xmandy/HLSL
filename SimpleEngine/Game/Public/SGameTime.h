@@ -32,12 +32,4 @@ namespace SGame
 		std::chrono::milliseconds mElapsedGameTime{ 0 };
 
 	};
-
-	SGameTime::SGameTime()
-	{
-	}
-
-	SGameTime::~SGameTime()
-	{
-	}
 }

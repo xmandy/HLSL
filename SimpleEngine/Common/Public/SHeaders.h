@@ -7,8 +7,8 @@
 
 // Windows
 #include <windows.h>
-// do not know its usage
-//#include <winrt\Windows.Foundation.h>
+// com related headers
+#include <winrt/Windows.Foundation.h>
 
 // DirectX
 #include <d3d11_3.h>

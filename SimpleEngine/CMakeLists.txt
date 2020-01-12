@@ -10,7 +10,17 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Libs)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Libs)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Libs)
 
-message(STATUS "11" ${CMAKE_BUILD_TYPE})
+message(STATUS "BuildType: " ${CMAKE_BUILD_TYPE})
+message(STATUS "MSVC_VERSION: " ${MSVC_VERSION})
+
+# Use this to enable c++17
+if (MSVC_VERSION GREATER_EQUAL "1900")
+    include(CheckCXXCompilerFlag)
+    CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
+    if (_cpp_latest_flag_supported)
+        add_compile_options("/std:c++latest")
+    endif()
+endif()
 
 add_subdirectory(Common)
 
