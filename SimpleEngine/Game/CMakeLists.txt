@@ -17,6 +17,9 @@ file(GLOB_RECURSE SRC_FILES ${SOURCE_DIR}/*.cpp)
 #)
 #set(SRC_FILES ${SOURCE_DIR}/Win32Window.cpp)
 
+add_dependencies(${TARGET_NAME} Common)
+target_link_libraries(${TARGET_NAME} Common)
+
 target_include_directories(${TARGET_NAME} 
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}

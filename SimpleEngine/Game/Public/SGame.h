@@ -6,7 +6,9 @@
 
 namespace SGame
 {
+	// here use ptr, in order to not include the head file.
 	class SGameTime;
+	class SGameClock;
 
 	class SGame : public Common::SRTTI
 	{
@@ -16,9 +18,17 @@ namespace SGame
 
 		SGame(std::function<void*()> GetWindowHandleFunc,
 			std::function<void(SIZE&)> GetRenderTargetSizeFunc);
+
+		~SGame();
 		
 		void CreateDeviceResources();
-		void CreateWidowSizeDependentResources();
+
+		void CreateWindowSizeDependentResources();
+
+		void CreateDeviceIndependentResources();
+
+
+		void UpdateRenderTargetSize();
 
 		virtual void Initialize();
 		virtual void Run();
@@ -29,28 +39,36 @@ namespace SGame
 
 	protected:
 		// Device members
-		winrt::com_ptr<ID3D11Device> D3DDevice;
-		winrt::com_ptr<ID3D11DeviceContext> D3DDeviceContext;
-		D3D_FEATURE_LEVEL SelectedFeatureLevel;
-
-		// swap chain
-		winrt::com_ptr<IDXGISwapChain1> SwapChain;
-		std::uint32_t FrameRate{ 60 };
-		bool FullScreen{ false };
-
+		winrt::com_ptr<ID3D11Device> mD3DDevice;
+		winrt::com_ptr<ID3D11DeviceContext> mD3DDeviceContext;
+		D3D_FEATURE_LEVEL mSelectedFeatureLevel;
 
 		// MSAA members
-		std::uint32_t MultiSamplingCount{ 4 };
-		std::uint32_t MultiSamplingQualityLevel{ 0 };
+		std::uint32_t mMultiSamplingCount{ 4 };
+		std::uint32_t mMultiSamplingQualityLevel{ 0 };
+
+		// swap chain
+		winrt::com_ptr<IDXGISwapChain1> mSwapChain;
+		std::uint32_t mFrameRate{ 60 };
+		bool mFullScreen{ false };
+		D3D11_TEXTURE2D_DESC mBackBufferDesc;
+		winrt::com_ptr<ID3D11RenderTargetView> mRenderTargetView;
+		winrt::com_ptr<ID3D11DepthStencilView> mDepthStencilView;
+
+		// view port
+		D3D11_VIEWPORT mViewport;
+
+
 
 	private:
 
-		SGameTime* GameTime;
+		SGameClock* mGameClock;
+		SGameTime* mGameTime;
 
-		std::function<void*()> GetWindowHandle;
-		std::function<void(SIZE&)> GetRenderTargetSize;
+		std::function<void*()> mGetWindowHandle;
+		std::function<void(SIZE&)> mGetRenderTargetSize;
 
-		SIZE RenderTargetSize;
+		SIZE mRenderTargetSize;
 
 
 

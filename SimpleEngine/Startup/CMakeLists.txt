@@ -15,8 +15,14 @@ LIST(APPEND INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 include_directories(${INCLUDE_DIR})
 add_executable(${PROJECT_NAME} WIN32 ${SOURCE_DIR}/win_main.cpp ${PLATFORM_HEADERS})
 
+add_dependencies(${PROJECT_NAME} Common)
+target_link_libraries(${PROJECT_NAME} Common)
+
 add_dependencies(${PROJECT_NAME} Platform)
 target_link_libraries(${PROJECT_NAME} Platform)
+
+add_dependencies(${PROJECT_NAME} Game)
+target_link_libraries(${PROJECT_NAME} Game)
 
 
 

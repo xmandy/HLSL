@@ -68,7 +68,7 @@ namespace Common
 
 
 #define SRTTI_DEFINITIONS(Type)\
-	SRTTI::IdType Type::RunTimeTypeId == reinterpret_cast<SRTTI::IdType>(&Type::RunTimeTypeId);
+	Common::SRTTI::IdType Type::RunTimeTypeId = reinterpret_cast<Common::SRTTI::IdType>(&Type::RunTimeTypeId);
 	
 
 

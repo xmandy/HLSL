@@ -2,6 +2,8 @@
 #include "Platform/Public/SWin32Window.h"
 #include "Game/Public/SGame.h"
 
+#pragma comment(lib, "windowsapp")
+
 
 int WINAPI WinMain(HINSTANCE Instance, HINSTANCE, LPSTR, int ShowCommand)
 {
@@ -12,10 +14,21 @@ int WINAPI WinMain(HINSTANCE Instance, HINSTANCE, LPSTR, int ShowCommand)
 	const std::wstring WindowTitle = L"Main";
 
 	const SIZE RenderTargetSize = { 1024, 768 };
-	HWND WindowHandle;
-	WNDCLASSEX WindowCls;
+	HWND windowHandle;
+	WNDCLASSEX windowCls;
 
-	Platform::Win32Window::InitializeWindow(WindowCls, WindowHandle, Instance, WindowClsName, WindowTitle, RenderTargetSize, ShowCommand);
+	Platform::Win32Window::InitializeWindow(windowCls, windowHandle, Instance, WindowClsName, WindowTitle, RenderTargetSize, ShowCommand);
+
+	auto getRenderTargetSize = [&RenderTargetSize](SIZE &renderTargetSize)
+	{
+		renderTargetSize = RenderTargetSize;
+	};
+	auto getWindow = [&]()->void*
+	{
+		return reinterpret_cast<void*>(windowHandle);
+	};
+
+	SGame::SGame game(getWindow, getRenderTargetSize);
 
 	MSG Message{ 0 };
 
@@ -31,7 +44,7 @@ int WINAPI WinMain(HINSTANCE Instance, HINSTANCE, LPSTR, int ShowCommand)
 		}
 	}
 
-	UnregisterClass(WindowClsName.c_str(), WindowCls.hInstance);
+	UnregisterClass(WindowClsName.c_str(), windowCls.hInstance);
 
 }
 

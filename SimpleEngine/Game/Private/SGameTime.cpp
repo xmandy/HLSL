@@ -4,6 +4,15 @@ using namespace std::chrono;
 
 namespace SGame
 {
+
+	SGameTime::SGameTime()
+	{
+
+	}
+	SGameTime::~SGameTime()
+	{
+
+	}
 	const high_resolution_clock::time_point& SGameTime::CurrentTime() const
 	{
 		return mCurrentTime;
@@ -43,4 +52,5 @@ namespace SGame
 	{
 		return duration_cast<duration<float>>(mElapsedGameTime);
 	}
+	
 }
