@@ -1,8 +1,13 @@
 #include "Common/Public/SHeaders.h"
+#include "Common/Public/SException.h"
 #include "Platform/Public/SWin32Window.h"
 #include "Game/Public/SGame.h"
 
 #pragma comment(lib, "windowsapp")
+#pragma comment(lib,"d2d1.lib")
+#pragma comment(lib,"d3d11.lib")
+#pragma comment(lib,"dxgi.lib")
+
 
 
 int WINAPI WinMain(HINSTANCE Instance, HINSTANCE, LPSTR, int ShowCommand)
@@ -10,6 +15,10 @@ int WINAPI WinMain(HINSTANCE Instance, HINSTANCE, LPSTR, int ShowCommand)
 #if defined(DEBUG) || defined(_DEBUG)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
+
+	Common::ThrowIfFailed(CoInitializeEx(nullptr, COINITBASE_MULTITHREADED), "ERROR initializing COM.");
+
+
 	const std::wstring WindowClsName = L"SREngine";
 	const std::wstring WindowTitle = L"Main";
 
@@ -29,6 +38,8 @@ int WINAPI WinMain(HINSTANCE Instance, HINSTANCE, LPSTR, int ShowCommand)
 	};
 
 	SGame::SGame game(getWindow, getRenderTargetSize);
+	game.UpdateRenderTargetSize();
+	game.Initialize();
 
 	MSG Message{ 0 };
 
@@ -41,10 +52,16 @@ int WINAPI WinMain(HINSTANCE Instance, HINSTANCE, LPSTR, int ShowCommand)
 		}
 		else
 		{
+			game.Run();
 		}
 	}
 
+	game.ShutDown();
+
 	UnregisterClass(WindowClsName.c_str(), windowCls.hInstance);
+
+	CoUninitialize();
+	return static_cast<int>(Message.wParam);
 
 }
 

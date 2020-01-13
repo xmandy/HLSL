@@ -34,8 +34,8 @@ namespace SGame
 		virtual void Run();
 		virtual void ShutDown();
 
-		virtual void Update();
-		virtual void Draw();
+		virtual void Update(const SGameTime& gameTime);
+		virtual void Draw(const SGameTime& gameTime);
 
 	protected:
 		// Device members

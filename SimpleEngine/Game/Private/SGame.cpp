@@ -33,6 +33,7 @@ namespace SGame
 #if defined(DEBUG) || defined(_DEBUG)
 		CreateFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
+		CreateFlags |= D3D11_CREATE_DEVICE_DEBUG;
 
 		// levels from most to least preferred
 		D3D_FEATURE_LEVEL Levels[] = {
@@ -84,8 +85,10 @@ namespace SGame
 		SwapChainDesc.Width = mRenderTargetSize.cx;
 		SwapChainDesc.Height = mRenderTargetSize.cy;
 		SwapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		SwapChainDesc.SampleDesc.Count = mMultiSamplingCount;
-		SwapChainDesc.SampleDesc.Quality = mMultiSamplingQualityLevel;
+		//SwapChainDesc.SampleDesc.Count = mMultiSamplingCount;
+		//SwapChainDesc.SampleDesc.Quality = mMultiSamplingQualityLevel - 1;
+		SwapChainDesc.SampleDesc.Count = 1;
+		SwapChainDesc.SampleDesc.Quality = 0;
 		SwapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		// number of back buffers of the swap chain, value of 1 means double buffering,
 		// value of 2 means triple buffering.
@@ -99,16 +102,17 @@ namespace SGame
 		FullScreenDesc.Windowed = !mFullScreen;
 
 		// DXGI related function
-		com_ptr<IDXGIDevice> DXGIDevice;
-		Common::ThrowIfFailed(mD3DDevice->QueryInterface(__uuidof(IDXGIDevice),
-			reinterpret_cast<void **>(DXGIDevice.put())), "DXGIDevice");
+		com_ptr<IDXGIDevice> dxgiDevice;
+		//Common::ThrowIfFailed(mD3DDevice->QueryInterface(__uuidof(IDXGIDevice),
+		//	reinterpret_cast<void **>(dxgiDevice.put())), "DXGIDevice");
+		dxgiDevice = mD3DDevice.as<IDXGIDevice>();
 
-		assert(DXGIDevice != nullptr);
-		com_ptr<IDXGIAdapter> Adapter;
-		Common::ThrowIfFailed(DXGIDevice->GetAdapter(Adapter.put()), "Adapter");
+		assert(dxgiDevice != nullptr);
+		com_ptr<IDXGIAdapter> dxgiAdapter;
+		Common::ThrowIfFailed(dxgiDevice->GetAdapter(dxgiAdapter.put()), "Adapter");
 
-		com_ptr<IDXGIFactory2> DXGIFactory;
-		Common::ThrowIfFailed(DXGIDevice->GetParent(IID_PPV_ARGS(DXGIFactory.put())),
+		com_ptr<IDXGIFactory2> dxgiFactory;
+		Common::ThrowIfFailed(dxgiAdapter->GetParent(IID_PPV_ARGS(dxgiFactory.put())),
 			"Factory");
 		// dxgi related end
 
@@ -116,8 +120,8 @@ namespace SGame
 		// tasks as presenting rendered frames to the screen and transitioning from windowed to full - screen display modes.
 		// These tasks are common across many APIs and are therefore independent of Direct3D.
 		void* Window = mGetWindowHandle();
-		Common::ThrowIfFailed(DXGIFactory->CreateSwapChainForHwnd(DXGIDevice.get(), reinterpret_cast<HWND>(Window),
-			&SwapChainDesc, &FullScreenDesc, nullptr, mSwapChain.put()), "SwapChain");
+		Common::ThrowIfFailed(dxgiFactory->CreateSwapChainForHwnd(mD3DDevice.get(), reinterpret_cast<HWND>(Window),
+			&SwapChainDesc, nullptr, nullptr, mSwapChain.put()), "SwapChain");
 
 		// render target view
 		com_ptr<ID3D11Texture2D> BackBuffer;
@@ -164,29 +168,47 @@ namespace SGame
 
 	void SGame::Initialize()
 	{
-
+		mGameClock->Reset();
 	}
 		
 
 	void SGame::Run()
 	{
-
+		mGameClock->UpdateGameTime(*mGameTime);
+		Update(*mGameTime);
+		Draw(*mGameTime);
 	}
 
 	void SGame::ShutDown()
 	{
+		mD3DDeviceContext->ClearState();
+		mD3DDeviceContext->Flush();
+
+		mDepthStencilView = nullptr;
+		mRenderTargetView = nullptr;
+		mSwapChain = nullptr;
+		mD3DDeviceContext = nullptr;
+		mD3DDevice = nullptr;
 
 
 	}
 
 
-	void SGame::Update()
+	void SGame::Update(const SGameTime& gameTime)
 	{
 
 	}
 
-	void SGame::Draw()
+	void SGame::Draw(const SGameTime& gameTime)
 	{
+		static const DirectX::XMVECTORF32 BackgroundColor = { 0.392f, 0.1f, 0.1f, 1.0f };
 
+		mD3DDeviceContext->ClearRenderTargetView(mRenderTargetView.get(), reinterpret_cast<const float*>(&BackgroundColor));
+		mD3DDeviceContext->ClearDepthStencilView(mDepthStencilView.get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL,
+			1.0f, 0);
+
+		HRESULT hr = mSwapChain->Present(0, 0);
+
+		Common::ThrowIfFailed(hr, "Swapchain Present() failed");
 	}
 }
