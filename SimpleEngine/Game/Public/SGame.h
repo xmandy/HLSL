@@ -37,11 +37,16 @@ namespace SGame
 		virtual void Update(const SGameTime& gameTime);
 		virtual void Draw(const SGameTime& gameTime);
 
+
+		void TestDebugMessage();
 	protected:
 		// Device members
 		winrt::com_ptr<ID3D11Device> mD3DDevice;
 		winrt::com_ptr<ID3D11DeviceContext> mD3DDeviceContext;
 		D3D_FEATURE_LEVEL mSelectedFeatureLevel;
+
+		// debug members
+		winrt::com_ptr<ID3D11InfoQueue> mDebugInfoQueue;
 
 		// MSAA members
 		std::uint32_t mMultiSamplingCount{ 4 };
@@ -53,7 +58,10 @@ namespace SGame
 		bool mFullScreen{ false };
 		D3D11_TEXTURE2D_DESC mBackBufferDesc;
 		winrt::com_ptr<ID3D11RenderTargetView> mRenderTargetView;
+
+		// depth stencil buffer/ view
 		winrt::com_ptr<ID3D11DepthStencilView> mDepthStencilView;
+		winrt::com_ptr<ID3D11Texture2D> mDepthStencilBuffer;
 
 		// view port
 		D3D11_VIEWPORT mViewport;
@@ -62,8 +70,8 @@ namespace SGame
 
 	private:
 
-		SGameClock* mGameClock;
-		SGameTime* mGameTime;
+		SGameClock* mGameClock{ nullptr };
+		SGameTime* mGameTime{ nullptr };
 
 		std::function<void*()> mGetWindowHandle;
 		std::function<void(SIZE&)> mGetRenderTargetSize;

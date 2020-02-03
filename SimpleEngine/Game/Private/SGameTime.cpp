@@ -28,7 +28,7 @@ namespace SGame
 		return mTotalGameTime;
 	}
 
-	void SGameTime::SetTotalGameTime(const milliseconds& totalGameTime)
+	void SGameTime::SetTotalGameTime(const milliseconds&& totalGameTime)
 	{
 		mTotalGameTime = totalGameTime;
 	}
