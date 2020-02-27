@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-project(Game)
+project(Components)
 set(TARGET_NAME ${PROJECT_NAME})
 add_library(${TARGET_NAME})
 
@@ -17,13 +17,11 @@ file(GLOB_RECURSE SRC_FILES ${SOURCE_DIR}/*.cpp)
 #)
 #set(SRC_FILES ${SOURCE_DIR}/Win32Window.cpp)
 
-add_dependencies(${TARGET_NAME} Common)
-target_link_libraries(${TARGET_NAME} Common)
-
 target_include_directories(${TARGET_NAME} 
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
 		${CMAKE_CURRENT_SOURCE_DIR}/../
+		${CMAKE_CURRENT_SOURCE_DIR}/Public
         )
 
 target_sources(${TARGET_NAME} 

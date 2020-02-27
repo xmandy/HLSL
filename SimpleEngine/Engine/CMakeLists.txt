@@ -24,6 +24,8 @@ endif()
 
 add_subdirectory(Common)
 
+add_subdirectory(Components)
+
 add_subdirectory(Platform)
 
 add_subdirectory(Render)

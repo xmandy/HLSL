@@ -3,6 +3,9 @@
 #include "Public/SGameClock.h"
 #include "Common/Public/SException.h"
 
+#include "Components/Public/SGameComponent.h"
+#include "Components/Public/SDrawableGameComponent.h"
+
 
 using namespace winrt;
 
@@ -204,6 +207,10 @@ namespace SGame
 
 	void SGame::Initialize()
 	{
+		for (auto comp : mComponents)
+		{
+			comp->Initialize();
+		}
 		mGameClock->Reset();
 	}
 		
@@ -232,11 +239,28 @@ namespace SGame
 
 	void SGame::Update(const SGameTime& gameTime)
 	{
+		for (auto comp : mComponents)
+		{
+			if (comp->Enabled())
+			{
+				comp->Update(gameTime);
+			}
+		}
 
 	}
 
 	void SGame::Draw(const SGameTime& gameTime)
 	{
+		for (auto comp : mComponents)
+		{
+			SDrawableGameComponent* drawableComp = comp->As<SDrawableGameComponent>();
+			if (drawableComp && drawableComp->Visible())
+			{
+				drawableComp->Draw(gameTime);
+			}
+			
+		}
+
 		static const DirectX::XMVECTORF32 BackgroundColor = { 0.392f, 0.1f, 0.1f, 1.0f };
 
 		mD3DDeviceContext->ClearRenderTargetView(mRenderTargetView.get(), reinterpret_cast<const float*>(&BackgroundColor));

@@ -32,7 +32,7 @@ namespace Common
 		template <typename T>
 		T* As() const
 		{
-			return (Is(T::TypeIdClass())) ? reinterpret_cast<T*>(const_cast<SRTTI*>(this));
+			return (Is(T::TypeIdClass())) ? reinterpret_cast<T*>(const_cast<SRTTI*>(this)) : nullptr;
 		}
 
 		virtual std::string ToString() const
