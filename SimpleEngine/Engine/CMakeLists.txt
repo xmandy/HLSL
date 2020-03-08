@@ -4,6 +4,11 @@ cmake_minimum_required(VERSION 2.6)
 project(Engine)
 add_definitions(-DUNICODE -D_UNICODE)
 
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
+include(CMakeCommon)
+
+
+
 set(CMAKE_BUILD_TYPE Release CACHE STRING "aaa" FORCE)
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Libs)
@@ -22,9 +27,27 @@ if (MSVC_VERSION GREATER_EQUAL "1900")
     endif()
 endif()
 
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
+set(AllEngineIncludePath "")
+set(AllEngineLinkPath "")
+
+# find normal include
+cmpIncludePath(${CMAKE_SOURCE_DIR})
+# find game include
+cmpIncludePath(${CMAKE_SOURCE_DIR}/Game)
+#message(STATUS "path: " ${AllEngineIncludePath})
+
+# find all libs include path and lib path
+cmpLibraryPath(${CMAKE_CURRENT_SOURCE_DIR}/ExternalLibs)
+
+
+message(STATUS "incPath: " ${AllEngineIncludePath})
+message(STATUS "libPath: " ${AllEngineLinkPath})
+
 add_subdirectory(Common)
 
-add_subdirectory(Components)
+add_subdirectory(Environment)
 
 add_subdirectory(Platform)
 

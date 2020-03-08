@@ -22,6 +22,7 @@ target_include_directories(${TARGET_NAME}
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
 		${CMAKE_CURRENT_SOURCE_DIR}/../
+        ${AllEngineIncludePath}
         )
 
 target_sources(${TARGET_NAME} 
@@ -31,7 +32,7 @@ target_sources(${TARGET_NAME}
     ${INCLUDE_FILES}
     )
 
-message(STATUE ${CMAKE_BINARY_DIR} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+message(STATUS "platform " ${CMAKE_BINARY_DIR} ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 
 

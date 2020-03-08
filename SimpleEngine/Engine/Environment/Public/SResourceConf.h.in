@@ -1,0 +1,5 @@
+#pragma once
+
+//#cmakedefine RESOURCE_ROOT "@ASSET_ROOT@" must use same name
+#cmakedefine			ASSET_ROOT			"@ASSET_ROOT@"
+#define					RESOURCE_ROOT		"@ASSET_ROOT@"	

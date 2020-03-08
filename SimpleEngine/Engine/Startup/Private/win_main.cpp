@@ -1,7 +1,7 @@
 #include "Common/Public/SHeaders.h"
 #include "Common/Public/SException.h"
 #include "Platform/Public/SWin32Window.h"
-#include "Game/Public/SGame.h"
+#include "Public/SGame.h"
 
 #pragma comment(lib, "windowsapp")
 #pragma comment(lib,"d2d1.lib")
@@ -37,7 +37,7 @@ int WINAPI WinMain(HINSTANCE Instance, HINSTANCE, LPSTR, int ShowCommand)
 		return reinterpret_cast<void*>(windowHandle);
 	};
 
-	SGame::SGame game(getWindow, getRenderTargetSize);
+	SEngine::SGame game(getWindow, getRenderTargetSize);
 	game.UpdateRenderTargetSize();
 	game.Initialize();
 
