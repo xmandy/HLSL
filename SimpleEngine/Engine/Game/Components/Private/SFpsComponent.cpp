@@ -5,6 +5,8 @@
 #include "Public/SGameTime.h"
 #include "Public/SHeaders.h"
 
+#include "Public/SMouseComponent.h"
+
 
 #include "DirectXTK/Inc/SpriteBatch.h"
 #include "DirectXTK/Inc/SpriteFont.h"
@@ -69,6 +71,15 @@ namespace SEngine {
 		fpsLabel << setprecision(4) << L"Frame Rate: " << mFrameRate << \
 			L"    Total Elapsed Time: " << gameTime.TotalGameTimeSeconds().count();
 		mSpriteFont->DrawString(mSpriteBatch.get(), fpsLabel.str().c_str(), mPosition);
+		XMFLOAT2 pos1(mPosition.x, mPosition.y + 20);
+		wostringstream mouseLabel;
+		auto mouseComp = reinterpret_cast<SMouseComponent*>(mGame->Services().GetService(SMouseComponent::TypeIdClass()));
+		mouseLabel << L"Mouse Position: " << mouseComp->X() << L", " << mouseComp->Y() << " Mouse Wheel: "\
+			<< mouseComp->Wheel();
+		mSpriteFont->DrawString(mSpriteBatch.get(), mouseLabel.str().c_str(), pos1);
+
+
+
 		mSpriteBatch->End();
 	}
 

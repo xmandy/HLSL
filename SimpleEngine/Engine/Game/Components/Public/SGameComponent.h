@@ -31,7 +31,7 @@ namespace SEngine
 
 	protected:
 		SGame* mGame{ nullptr };
-		bool mEnabled{ false };
+		bool mEnabled{ true };
 	private:
 		//SGameComponent(const SGameComponent& rhs);
 		//SGameComponent& operator=(const SGameComponent& rhs);

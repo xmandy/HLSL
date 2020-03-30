@@ -6,9 +6,12 @@
 #include "Components/Public/SGameComponent.h"
 #include "Components/Public/SDrawableGameComponent.h"
 #include "Components/Public/SFpsComponent.h"
+#include "Public/SKeyboradComponent.h"
+#include "Public/SMouseComponent.h"
 
 
 using namespace winrt;
+using namespace std;
 
 namespace SEngine
 {
@@ -210,6 +213,14 @@ namespace SEngine
 
 	void SGame::Initialize()
 	{
+		mKeyboard = make_shared<SKeyboardComponent>(*this);
+		mMouse = std::make_shared<SMouseComponent>(*this);
+		mServices.AddService(mKeyboard->TypeIdClass(), mKeyboard.get());
+		mServices.AddService(mMouse->TypeIdClass(), mMouse.get());
+		mComponents.push_back(mKeyboard);
+		mComponents.push_back(mMouse);
+
+		
 		mComponents.emplace_back(std::make_shared<SFpsComponent>(*this));
 		for (auto& comp : mComponents)
 		{

@@ -5,12 +5,12 @@ namespace SEngine
 	SRTTI_DEFINITIONS(SGameComponent)
 
 	SGameComponent::SGameComponent()
-		:mGame(nullptr), mEnabled(false)
+		:mGame(nullptr), mEnabled(true)
 	{
 
 	}
 	SGameComponent::SGameComponent(SGame& game)
-		:mGame(&game), mEnabled(false)
+		:mGame(&game), mEnabled(true)
 	{
 
 	}

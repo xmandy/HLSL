@@ -1,6 +1,7 @@
 #pragma once
 #include "Common/Public/SHeaders.h"
 #include "Common/Public/SRHHI.h"
+#include "Public/SServiceManager.h"
 
 #include <functional>
 
@@ -10,6 +11,9 @@ namespace SEngine
 	class SGameTime;
 	class SGameClock;
 	class SGameComponent;
+
+	class SKeyboardComponent;
+	class SMouseComponent;
 
 	class SGame : public Common::SRTTI
 	{
@@ -45,6 +49,11 @@ namespace SEngine
 
 		virtual void Update(const SGameTime& gameTime);
 		virtual void Draw(const SGameTime& gameTime);
+
+		std::function<void* ()> GetWindowFunc() { return mGetWindowHandle; }
+
+		SServiceManager& Services() { return mServices; }
+
 
 
 		void TestDebugMessage();
@@ -105,6 +114,14 @@ namespace SEngine
 
 	/******************************************************/
 
+	
+	/******************************************************/
+	// Service Components 
+	std::shared_ptr<SKeyboardComponent>								mKeyboard;
+	std::shared_ptr<SMouseComponent>								mMouse;
+	/******************************************************/
+
+	SServiceManager													mServices;
 
 
 	};

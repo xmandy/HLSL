@@ -1,5 +1,8 @@
 #include "Public/SWin32Window.h"
 
+#include <DirectXTK/Inc/Mouse.h>
+#include <DirectXTK/Inc/Keyboard.h>
+
 namespace Platform
 {
 
@@ -55,9 +58,31 @@ namespace Platform
 	{
 		switch (Message)
 		{
+		case WM_KEYDOWN:
+		case WM_SYSKEYDOWN:
+		case WM_KEYUP:
+		case WM_SYSKEYUP:
+			DirectX::Keyboard::ProcessMessage(Message, WParam, LParam);
+			break;
+
+		case WM_INPUT:
+		case WM_MOUSEMOVE:
+		case WM_LBUTTONDOWN:
+		case WM_LBUTTONUP:
+		case WM_RBUTTONDOWN:
+		case WM_RBUTTONUP:
+		case WM_MBUTTONDOWN:
+		case WM_MBUTTONUP:
+		case WM_MOUSEWHEEL:
+		case WM_XBUTTONDOWN:
+		case WM_XBUTTONUP:
+		case WM_MOUSEHOVER:
+			DirectX::Mouse::ProcessMessage(Message, WParam, LParam);
+			break;
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;
+
 		}
 
 		return DefWindowProc(WindowHandle, Message, WParam, LParam);
