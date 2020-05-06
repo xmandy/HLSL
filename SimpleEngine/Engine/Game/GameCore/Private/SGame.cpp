@@ -220,6 +220,7 @@ namespace SEngine
 		mComponents.push_back(mKeyboard);
 		mComponents.push_back(mMouse);
 
+		mMouse->SetMode(MouseModes::Relative);
 		
 		mComponents.emplace_back(std::make_shared<SFpsComponent>(*this));
 		for (auto& comp : mComponents)
@@ -260,6 +261,16 @@ namespace SEngine
 
 	void SGame::Update(const SGameTime& gameTime)
 	{
+		if (mMouse->WasButtonPressedThisFrame(MouseButtons::Left))
+		{
+			mMouse->SetMode(MouseModes::Relative);
+		}
+
+		if (mMouse->WasButtonReleasedThisFrame(MouseButtons::Left))
+		{
+			mMouse->SetMode(MouseModes::Absolute);
+		}
+
 		for (auto comp : mComponents)
 		{
 			if (comp->Enabled())

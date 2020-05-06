@@ -58,6 +58,12 @@ namespace Platform
 	{
 		switch (Message)
 		{
+
+		case WM_ACTIVATEAPP:
+			DirectX::Keyboard::ProcessMessage(Message, WParam, LParam);
+			DirectX::Mouse::ProcessMessage(Message, WParam, LParam);
+			break;
+
 		case WM_KEYDOWN:
 		case WM_SYSKEYDOWN:
 		case WM_KEYUP:
